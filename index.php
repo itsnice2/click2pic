@@ -4,7 +4,7 @@
      * * * * * * * * * * * * * * * * * * */
     $image_path     = "./assets/images/";
     $ending         = "/";
-    $animals        = $image_path . "animnals"      . $ending;
+    $animals        = $image_path . "animals"       . $ending;
     $backgrounds    = $image_path . "backgrounds"   . $ending;
     $buildings      = $image_path . "buildings"     . $ending;
     $people         = $image_path . "people"        . $ending;
@@ -30,7 +30,7 @@
 
 <!-- HEADER ------------------------------------------------------------------- -->
 
-<h1>click2pic (working title)</h1>
+<h1>click2pic</h1>
 <hr>
 <select name="auswahl">
     <option value="0">Größe wählen (16x9)</option>
@@ -42,7 +42,7 @@
     <option value="6">Papier (Hochformat)</option>
 </select>
 <button id="newImage" class="buttons">Neues Bild</button>
-<button id="saveImage" class="buttons">Bild speichern</button>
+<button id="saveImage" class="buttons">Bild fertigstellen</button>
 <hr>
 
 <!-- CONTENT ------------------------------------------------------------------ -->
@@ -50,7 +50,11 @@
 <div class="container">
     <div class="row">
         <div class="col-8">
-            <div style="text-align: left">Hier entsteht dein Bild <button id="imageAreaPlus" class="buttons-bildflaeche">+</button><button id="imageAreaMinus" class="buttons-bildflaeche">-</button><button id="removeimgbtn" class="buttons-bildflaeche">X</button></div>
+            <div style="text-align: left">Hier entsteht dein Bild
+                <button id="imageAreaPlus" class="buttons-bildflaeche">+</button>
+                <button id="imageAreaMinus" class="buttons-bildflaeche">-</button>
+                <button id="removeimgbtn" class="buttons-bildflaeche">X</button>
+            </div>
             <div id="malbereich"">...</div>
         </div>
         <div class="col-4" id="bildbereich">
@@ -58,15 +62,17 @@
                 <div class="row">
                     <div class="row">
                         <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-backgrounds" role="tab" aria-controls="list-home">Hintergrund</a>
-                            <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-buildings" role="tab" aria-controls="list-profile">Gebäude</a>
-                            <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-people" role="tab" aria-controls="list-messages">Personen</a>
-                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-plants" role="tab" aria-controls="list-settings">Pflanzen</a>
+                            <a class="list-group-item list-group-item-action active" id="list-backgrounds-list" data-bs-toggle="list" href="#list-backgrounds" role="tab" aria-controls="list-backgrounds">Hintergrund</a>
+                            <a class="list-group-item list-group-item-action" id="list-buildings-list" data-bs-toggle="list" href="#list-buildings" role="tab" aria-controls="list-buildings">Gebäude</a>
+                            <a class="list-group-item list-group-item-action" id="list-people-list" data-bs-toggle="list" href="#list-people" role="tab" aria-controls="list-people">Personen</a>
+                            <a class="list-group-item list-group-item-action" id="list-plants-list" data-bs-toggle="list" href="#list-plants" role="tab" aria-controls="list-plants">Pflanzen</a>
+                            <a class="list-group-item list-group-item-action" id="list-animals-list" data-bs-toggle="list" href="#list-animals" role="tab" aria-controls="list-animals">Tiere</a>
+                            <a class="list-group-item list-group-item-action" id="list-things-list" data-bs-toggle="list" href="#list-things" role="tab" aria-controls="list-things">Dinge</a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="list-backgrounds" role="tabpanel" aria-labelledby="list-home-list">
+                            <div class="tab-pane fade show active" id="list-backgrounds" role="tabpanel" aria-labelledby="list-backgrounds-list">
                                 <!-- BACKGROUNDS -->
                                 <?php
                                     $dateien = getFileList($backgrounds);
@@ -75,7 +81,7 @@
                                     }
                                 ?>
                             </div>
-                            <div class="tab-pane fade" id="list-buildings" role="tabpanel" aria-labelledby="list-profile-list">
+                            <div class="tab-pane fade" id="list-buildings" role="tabpanel" aria-labelledby="list-buildings-list">
                                 <!-- BUILDINGS -->
                                 <?php
                                 $dateien = getFileList($buildings);
@@ -84,7 +90,7 @@
                                 }
                                 ?>
                             </div>
-                            <div class="tab-pane fade" id="list-people" role="tabpanel" aria-labelledby="list-messages-list">
+                            <div class="tab-pane fade" id="list-people" role="tabpanel" aria-labelledby="list-people-list">
                                 <!-- PEOPLE -->
                                 <?php
                                 $dateien = getFileList($people);
@@ -93,7 +99,7 @@
                                 }
                                 ?>
                             </div>
-                            <div class="tab-pane fade" id="list-plants" role="tabpanel" aria-labelledby="list-settings-list">
+                            <div class="tab-pane fade" id="list-plants" role="tabpanel" aria-labelledby="list-plants-list">
                                 <!-- PLANTS -->
                                 <?php
                                 $dateien = getFileList($plants);
@@ -102,22 +108,44 @@
                                 }
                                 ?>
                             </div>
+                            <div class="tab-pane fade" id="list-animals" role="tabpanel" aria-labelledby="list-animals-list">
+                                <!-- PLANTS -->
+                                <?php
+                                $dateien = getFileList($animals);
+                                foreach($dateien as $file){
+                                    echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $animals . $file . "\">\n\t\t\t\t\t\t\t\t";
+                                }
+                                ?>
+                            </div>
+                            <div class="tab-pane fade" id="list-things" role="tabpanel" aria-labelledby="list-things-list">
+                                <!-- PLANTS -->
+                                <?php
+                                $dateien = getFileList($things);
+                                foreach($dateien as $file){
+                                    echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $things . $file . "\">\n\t\t\t\t\t\t\t\t";
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>
         </div>
     </div>
+    <div class="row footer">
+        <div id="savedImage"></div>
+    </div>
 </div>
 
 <!-- FOOTER ------------------------------------------------------------------- -->
 
-<div><img id="savedImage" src="" style="display: none"></div>
+<!-- <div><img id="savedImage" src=""></div> -->
+
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="assets/js/click2pic.js"></script>
 <script src="assets/js/html2canvas.js"></script>
+<script src="assets/js/click2pic.js"></script>
 </body>
 </html>
 
@@ -140,3 +168,5 @@ function getFileList($path)
 
 
 ?>
+
+

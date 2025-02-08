@@ -64,10 +64,23 @@ $(document).ready(function (){
     //TODO
     // Button "Bild speichern"
     $("#saveImage").on("click", function (){
+
+        $("#malbereich").css("border", "none")
+        $(".imgbtn").css("visibility", "hidden")
+
         html2canvas(document.querySelector("#malbereich")).then(canvas => {
-            window.location.href = 'download.php?ext=png&img=' + canvas;
+            //window.location.href = 'download.php?ext=png&img=' + canvas;
+            //document.body.appendChild(canvas)
+            $("#malbereich").empty();
+            $("#malbereich").append(canvas);
         });
         //$("IMG#savedImage").css("display", "block")
+
+        $(".imgbtn").css("visibility", "visible")
+        $("#malbereich").css("border", "solid 1px red")
+        $("#savedImage").text("Rechtsklick und Bild speichern...");
+
+
     });
 
     // Bildfläche vergrößern
