@@ -68,17 +68,19 @@ $(document).ready(function (){
         $("#malbereich").css("border", "none")
         $(".imgbtn").css("visibility", "hidden")
 
-        html2canvas(document.querySelector("#malbereich")).then(canvas => {
+        html2canvas(document.querySelector("#malbereich"), {
+            scale: 4
+        }).then(canvas => {
             //window.location.href = 'download.php?ext=png&img=' + canvas;
             //document.body.appendChild(canvas)
             $("#malbereich").empty();
             $("#malbereich").append(canvas);
         });
-        //$("IMG#savedImage").css("display", "block")
 
-        $(".imgbtn").css("visibility", "visible")
-        $("#malbereich").css("border", "solid 1px red")
-        $("#savedImage").text("Rechtsklick und Bild speichern...");
+        $("#malbereich-text").empty();
+        $("#malbereich-text").css("color", "red");
+        $("#malbereich-text").css("font-size", "larger");
+        $("#malbereich-text").html("Rechtsklick und Bild speichern...");
 
 
     });
@@ -99,11 +101,6 @@ $(document).ready(function (){
         }
     });
 });
-
-//
-function changeSize(option, oldWidth, oldHeight){
-    //... to be done?!
-}
 
 
 // Funktion für das richtige Seitenverhältnis des Malbereichs

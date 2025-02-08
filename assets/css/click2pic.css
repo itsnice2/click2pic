@@ -85,6 +85,14 @@ select{
 }
 
 .footer{
+    background-color: darkgrey;
     position: fixed;
-    bottom: 1px;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.footer > a{
+   text-decoration: none;
+    color: #575757;
 }

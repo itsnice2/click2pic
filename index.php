@@ -50,7 +50,7 @@
 <div class="container">
     <div class="row">
         <div class="col-8">
-            <div style="text-align: left">Hier entsteht dein Bild
+            <div style="text-align: left" id="malbereich-text">Hier entsteht dein Bild
                 <button id="imageAreaPlus" class="buttons-bildflaeche">+</button>
                 <button id="imageAreaMinus" class="buttons-bildflaeche">-</button>
                 <button id="removeimgbtn" class="buttons-bildflaeche">X</button>
@@ -131,8 +131,8 @@
                 </div>
         </div>
     </div>
-    <div class="row footer">
-        <div id="savedImage"></div>
+    <div class="footer">
+        Erstellt mithilfe von <a href="https://jquery.com" target="_blank">jQuery</a>, <a href="https://getbootstrap.com" target="_blank">Bootstrap</a> und <a href="https://html2canvas.hertzen.com" target="_blank">html2canvas</a>
     </div>
 </div>
 
