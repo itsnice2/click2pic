@@ -12,6 +12,7 @@ Features:
     ✅ - provisorische Bilder erstellen
     ✅ - Bilder per Klick auf der Leinwand platzieren
     ✅ - Bilder speichern
+	❌ - Thumbnails erstellen
     ❌ - mehr Bilder
     ❌ - Layer
     ❌ - Sortierung der Reihenfolge

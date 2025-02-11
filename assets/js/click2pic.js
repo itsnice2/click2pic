@@ -10,20 +10,37 @@ $(document).ready(function (){
     // Bilder einfügen
     $(".image-thumbnail").on("click", function (){
         counter++;
+
+        // Malbereich-Bild
         let imgid = "img" + counter;
         $("#malbereich").append("<div id='img" + counter + "'>" +
-            "<img id='print" + imgid + "' src='" + $(this).attr("src") + "'" +
+            "<img id='print" + imgid + "' src='" + $(this).attr("src") + "'>" +
             "<br><br><button class=\"imgbtn\" id=\"plus\" onclick=\"plus('" + imgid + "')\">+</button>" +
             "  <button class=\"imgbtn\" id=\"minus\" onclick=\"minus('" + imgid + "')\">-</button>" +
             "  <button class=\"imgbtn delbtn\" id=\"del\" onclick=\"del('" + imgid + "')\">X</button>" +
             "</div>");
         //$("#img" + counter).resizable();
 
+
+        // Reihenfolge-Bild
+        $("#layerbereich").sortable({
+            update: function (){
+                //TODO
+                // on change z-index ändern?
+                //alert("Hallo")
+            }
+        });
+
+        $("#layerbereich").prepend("<li id='print" + imgid + "_list'>" +
+            "<img src='" + $(this).attr("src") + "' height='30px' class='sortme'>" +
+            "</li>");
+        $("#print" + imgid + "_list").css("z-index", counter);
+
         $("#" + imgid).draggable();
         $("#" + imgid).css("position", "absolute");
         $("#" + imgid).css("top", "400");
         $("#" + imgid).css("left", "0");
-        $("#" + imgid).css("z-index", "2");
+        $("#" + imgid).css("z-index", counter);
 
         if($(this).attr("src").includes("backgrounds") == true){
             $("#print" + imgid).width($("#malbereich").width());
@@ -163,6 +180,7 @@ function startConfig(){
 
 function del(myID){
     $("#" + myID).remove();
+    $("#print" + myID + "_list").remove();
 }
 
 function plus(myID){

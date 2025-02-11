@@ -50,15 +50,21 @@
 <div class="container">
     <div class="row">
         <div class="col-8">
-            <div style="text-align: left" id="malbereich-text">Hier entsteht dein Bild
+            <div style="text-align: left" id="malbereich-text">Bildbereich
                 <button id="imageAreaPlus" class="buttons-bildflaeche">+</button>
                 <button id="imageAreaMinus" class="buttons-bildflaeche">-</button>
                 <button id="removeimgbtn" class="buttons-bildflaeche">X</button>
             </div>
             <div id="malbereich"">...</div>
         </div>
-        <div class="col-4" id="bildbereich">
-            <div>Hier kannst du dir Bilder aussuchen</div>
+        <div class="col-2">
+            <div>Reihenfolge</div>
+            <div>
+                <ul id="layerbereich"></ul>
+            </div>
+        </div>
+        <div class="col-2" id="bildbereich">
+            <div>Auswahl</div>
                 <div class="row">
                     <div class="row">
                         <div class="list-group" id="list-tab" role="tablist">

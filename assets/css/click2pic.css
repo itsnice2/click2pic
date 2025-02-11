@@ -96,3 +96,17 @@ select{
    text-decoration: none;
     color: #575757;
 }
+
+li{
+    list-style: none;
+    height: 50px;
+    padding: 5px 5px;
+    margin: 3px 3px;
+    border: solid 1px lightgray;
+    border-radius: 5px;
+}
+
+li:hover{
+    cursor: pointer;
+    background-color: lightgreen;
+}
