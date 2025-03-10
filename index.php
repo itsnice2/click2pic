@@ -1,15 +1,22 @@
 <?php
-    /* * * * * * * * * * * * * * * * * * *
-     * Settings:
-     * * * * * * * * * * * * * * * * * * */
-    $image_path     = "./assets/images/";
-    $ending         = "/";
-    $animals        = $image_path . "animals"       . $ending;
-    $backgrounds    = $image_path . "backgrounds"   . $ending;
-    $buildings      = $image_path . "buildings"     . $ending;
-    $people         = $image_path . "people"        . $ending;
-    $plants         = $image_path . "plants"        . $ending;
-    $things         = $image_path . "things"        . $ending;
+    session_start();
+
+    include "settings/inc.php";
+
+    $i = 1;
+
+    $handle = fopen("assets/config/categories.txt", "r");
+    while (($line = fgets($handle)) !== false) {
+        #echo trim($line);
+        $line = explode(",", $line);
+        $category[] = [
+                "name" => $line[0],
+                "displayname" => $line[1],
+                "path" => $image_path . $line[0] . $ending
+        ];
+    }
+    fclose($handle);
+    #var_dump($category);
 
 ?>
 
@@ -49,6 +56,7 @@
 
 <div class="container">
     <div class="row">
+<!-- ##### BILDBEREICH ############################################################################################# -->
         <div class="col-8">
             <div style="text-align: left" id="malbereich-text">Bildbereich
                 <button id="imageAreaPlus" class="buttons-bildflaeche">+</button>
@@ -57,85 +65,85 @@
             </div>
             <div id="malbereich"">...</div>
         </div>
+<!-- ##### REIHENFOLGE ############################################################################################# -->
         <div class="col-2">
             <div>Reihenfolge</div>
             <div>
                 <ul id="layerbereich"></ul>
             </div>
         </div>
+<!-- ##### AUSWAHL ################################################################################################# -->
         <div class="col-2" id="bildbereich">
-            <div>Auswahl</div>
+            <div class="row">
+                <div>Auswahl</div>
                 <div class="row">
                     <div class="row">
                         <div class="list-group" id="list-tab" role="tablist">
+
+                            <?php foreach($category as $cat): ?>
+
+                                <a class="list-group-item list-group-item-action <?php if($i == 1) echo "active"; ?>" id="list-backgrounds-list" data-bs-toggle="list" href="#list-<?php echo $cat['name'] ?>" role="tab" aria-controls="list-<?php echo $cat['name'] ?>"><?php echo $cat['displayname'] ?></a>
+                                <?php $i++ ?>
+                            <?php endforeach; ?>
+                            <a class="list-group-item list-group-item-action" id="list-things-list" data-bs-toggle="list" href="#list-own" role="tab" aria-controls="list-things">Eigene Bilder</a>
+                            <!--
                             <a class="list-group-item list-group-item-action active" id="list-backgrounds-list" data-bs-toggle="list" href="#list-backgrounds" role="tab" aria-controls="list-backgrounds">Hintergrund</a>
                             <a class="list-group-item list-group-item-action" id="list-buildings-list" data-bs-toggle="list" href="#list-buildings" role="tab" aria-controls="list-buildings">Gebäude</a>
                             <a class="list-group-item list-group-item-action" id="list-people-list" data-bs-toggle="list" href="#list-people" role="tab" aria-controls="list-people">Personen</a>
                             <a class="list-group-item list-group-item-action" id="list-plants-list" data-bs-toggle="list" href="#list-plants" role="tab" aria-controls="list-plants">Pflanzen</a>
                             <a class="list-group-item list-group-item-action" id="list-animals-list" data-bs-toggle="list" href="#list-animals" role="tab" aria-controls="list-animals">Tiere</a>
                             <a class="list-group-item list-group-item-action" id="list-things-list" data-bs-toggle="list" href="#list-things" role="tab" aria-controls="list-things">Dinge</a>
+                            <a class="list-group-item list-group-item-action" id="list-things-list" data-bs-toggle="list" href="#list-own" role="tab" aria-controls="list-things">Eigene Bilder</a>
+                            -->
                         </div>
                     </div>
                     <div class="row">
                         <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="list-backgrounds" role="tabpanel" aria-labelledby="list-backgrounds-list">
-                                <!-- BACKGROUNDS -->
-                                <?php
-                                    $dateien = getFileList($backgrounds);
+                            <?php $i = 1; ?>
+                            <?php foreach($category as $cat): ?>
+
+                                <div class="tab-pane fade show <?php if($i == 1) echo "active"; ?>" id="list-<?php echo $cat['name'] ?>" role="tabpanel" aria-labelledby="list-<?php echo $cat['name'] ?>-list">
+                                    <!-- BACKGROUNDS -->
+                                    <?php
+                                    $dateien = getFileList($cat['path']);
                                     foreach($dateien as $file){
-                                        echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $backgrounds . $file . "\">\n\t\t\t\t\t\t\t\t";
+                                        echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $cat['path'] . $file . "\">\n\t\t\t\t\t\t\t\t";
+                                    }
+                                    $i++;
+                                    ?>
+                                </div>
+
+                            <?php endforeach; ?>
+
+                            <div class="tab-pane fade" id="list-own" role="tabpanel" aria-labelledby="list-things-list">
+                                <!-- YOUR OWN PICTURES -->
+                                <label class="infotext">Eigene Bilder werden nach 14 Tagen automatisch gelöscht</label>
+                                <form enctype="multipart/form-data" action="upload.php" method="POST">
+                                    <label class="btn btn-default btn-sm center-block btn-file">
+                                        <img src="https://openmoji.org/data/color/svg/E142.svg" height="30px">
+                                        <label class="bildname">Bild auswählen</label>
+                                        <input type="file" style="display: none;" name="bild">
+                                    </label>
+                                    <input type="hidden" name="user" value="<?php echo session_id() ?>">
+                                    <input id="ordner-auflisten" class="buttons ordnerbutton" type="Submit" value="Hochladen">
+                                </form>
+                                <?php
+                                    if(is_dir($custom)){
+                                        $dateien = getFileList($custom);
+                                        foreach($dateien as $file){
+                                            echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $custom . $file . "\">\n\t\t\t\t\t\t\t\t";
+                                        }
                                     }
                                 ?>
                             </div>
-                            <div class="tab-pane fade" id="list-buildings" role="tabpanel" aria-labelledby="list-buildings-list">
-                                <!-- BUILDINGS -->
-                                <?php
-                                $dateien = getFileList($buildings);
-                                foreach($dateien as $file){
-                                    echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $buildings . $file . "\">\n\t\t\t\t\t\t\t\t";
-                                }
-                                ?>
-                            </div>
-                            <div class="tab-pane fade" id="list-people" role="tabpanel" aria-labelledby="list-people-list">
-                                <!-- PEOPLE -->
-                                <?php
-                                $dateien = getFileList($people);
-                                foreach($dateien as $file){
-                                    echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $people . $file . "\">\n\t\t\t\t\t\t\t\t";
-                                }
-                                ?>
-                            </div>
-                            <div class="tab-pane fade" id="list-plants" role="tabpanel" aria-labelledby="list-plants-list">
-                                <!-- PLANTS -->
-                                <?php
-                                $dateien = getFileList($plants);
-                                foreach($dateien as $file){
-                                    echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $plants . $file . "\">\n\t\t\t\t\t\t\t\t";
-                                }
-                                ?>
-                            </div>
-                            <div class="tab-pane fade" id="list-animals" role="tabpanel" aria-labelledby="list-animals-list">
-                                <!-- PLANTS -->
-                                <?php
-                                $dateien = getFileList($animals);
-                                foreach($dateien as $file){
-                                    echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $animals . $file . "\">\n\t\t\t\t\t\t\t\t";
-                                }
-                                ?>
-                            </div>
-                            <div class="tab-pane fade" id="list-things" role="tabpanel" aria-labelledby="list-things-list">
-                                <!-- PLANTS -->
-                                <?php
-                                $dateien = getFileList($things);
-                                foreach($dateien as $file){
-                                    echo "<img class=\"image-thumbnail\" id=\"" . $file . "\" src=\"" . $things . $file . "\">\n\t\t\t\t\t\t\t\t";
-                                }
-                                ?>
-                            </div>
+
                         </div>
                     </div>
                 </div>
+            </div>
+
         </div>
+
     </div>
     <div class="footer">
         Erstellt mithilfe von <a href="https://jquery.com" target="_blank">jQuery</a>, <a href="https://getbootstrap.com" target="_blank">Bootstrap</a> und <a href="https://html2canvas.hertzen.com" target="_blank">html2canvas</a>
@@ -161,7 +169,7 @@ function getFileList($path)
     $handle = opendir($path);
     while (($file = readdir($handle)) !== false)
     {
-        if(str_ends_with($file, ".") != true){
+        if(!str_ends_with($file, ".") && !str_ends_with($file, "pic") && !str_ends_with($file, "thumbnail")){
             $dateien[] = $file;
         }
     }

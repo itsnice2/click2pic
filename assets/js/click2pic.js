@@ -117,6 +117,13 @@ $(document).ready(function (){
             $("#malbereich").height( $("#malbereich").height() - 30 );
         }
     });
+
+    $("input[type='file']").on("change", function (){
+        $(".bildname").html($("input[type='file']").val().replace(/C:\\fakepath\\/i, ''));
+        //$(".bildname").text("Hallo");
+    });
+
+
 });
 
 

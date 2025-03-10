@@ -1,0 +1,6 @@
+backgrounds,Hintergründe
+animals,Tiere
+buildings,Gebäude
+people,Menschen
+plants,Pflanzen
+things,Dinge
