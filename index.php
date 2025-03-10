@@ -1,23 +1,7 @@
 <?php
     session_start();
-
-    include "settings/inc.php";
-
-    $i = 1;
-
-    $handle = fopen("assets/config/categories.txt", "r");
-    while (($line = fgets($handle)) !== false) {
-        #echo trim($line);
-        $line = explode(",", $line);
-        $category[] = [
-                "name" => $line[0],
-                "displayname" => $line[1],
-                "path" => $image_path . $line[0] . $ending
-        ];
-    }
-    fclose($handle);
+    include "app/settings/inc.php";
     #var_dump($category);
-
 ?>
 
 <!doctype html>
@@ -31,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://jqueryui.com/wp-content/themes/jqueryui.com/style.css">
-    <link rel="stylesheet" href="assets/css/click2pic.css">
+    <link rel="stylesheet" href="app/assets/css/click2pic.css">
 </head>
 <body>
 
@@ -79,7 +63,7 @@
                 <div class="row">
                     <div class="row">
                         <div class="list-group" id="list-tab" role="tablist">
-
+                            <?php $i = 1 ?>
                             <?php foreach($category as $cat): ?>
 
                                 <a class="list-group-item list-group-item-action <?php if($i == 1) echo "active"; ?>" id="list-backgrounds-list" data-bs-toggle="list" href="#list-<?php echo $cat['name'] ?>" role="tab" aria-controls="list-<?php echo $cat['name'] ?>"><?php echo $cat['displayname'] ?></a>
@@ -117,15 +101,19 @@
 
                             <div class="tab-pane fade" id="list-own" role="tabpanel" aria-labelledby="list-things-list">
                                 <!-- YOUR OWN PICTURES -->
-                                <label class="infotext">Eigene Bilder werden nach 14 Tagen automatisch gelöscht</label>
-                                <form enctype="multipart/form-data" action="upload.php" method="POST">
+                                <form enctype="multipart/form-data" action="app/upload.php" method="POST">
                                     <label class="btn btn-default btn-sm center-block btn-file">
                                         <img src="https://openmoji.org/data/color/svg/E142.svg" height="30px">
                                         <label class="bildname">Bild auswählen</label>
                                         <input type="file" style="display: none;" name="bild">
                                     </label>
                                     <input type="hidden" name="user" value="<?php echo session_id() ?>">
+                                    <input type="hidden" name="cu" value="<?php echo $custom ?>">
                                     <input id="ordner-auflisten" class="buttons ordnerbutton" type="Submit" value="Hochladen">
+                                    <label class="infotext">Erlaubt sind JPG-/JPEG-, PNG-, und SVG-Bilder.</label>
+                                    <?php if($delete['delete']): ?>
+                                        <label class="infotext">Eigene Bilder werden nach <?php echo $delete['time_value'] . " " . $delete['time_value']; ?> automatisch gelöscht.</label>
+                                    <?php endif; ?>
                                 </form>
                                 <?php
                                     if(is_dir($custom)){
@@ -158,29 +146,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="assets/js/html2canvas.js"></script>
-<script src="assets/js/click2pic.js"></script>
+<script src="app/assets/js/html2canvas.js"></script>
+<script src="app/assets/js/click2pic.js"></script>
 </body>
 </html>
-
-<?php
-function getFileList($path)
-{
-    $handle = opendir($path);
-    while (($file = readdir($handle)) !== false)
-    {
-        if(!str_ends_with($file, ".") && !str_ends_with($file, "pic") && !str_ends_with($file, "thumbnail")){
-            $dateien[] = $file;
-        }
-    }
-    closedir($handle);
-
-    arsort($dateien);
-
-    return $dateien;
-}
-
-
-?>
-
-

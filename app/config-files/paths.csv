@@ -1,0 +1,3 @@
+"path to images", "images/"
+"ending (every path to a file has to end with this)", "/"
+"custom uploads directory", "custom-uploads"

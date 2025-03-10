@@ -9,7 +9,7 @@ $img_type = $_FILES['bild']['type'];
 $img_tmp_name = $_FILES['bild']['tmp_name'];
 $img_error = $_FILES['bild']['error'];
 $img_size = $_FILES['bild']['size'];
-$img_directory = "custom-uploads/" . $session_id;
+$img_directory = "../images/custom-uploads/" . $session_id;
 
 if($img_error === 0 && $img_size <= 30000000 && ($img_type === "image/jpeg" || $img_type === "image/png" || $img_type === "image/svg+xml")){
     echo "ok";
@@ -41,7 +41,7 @@ else{
     //header( "refresh:5;url=index.php" );
 }
 
-echo "<a href='index.php'>Zurück</a>";
+echo "<a href='../index.php'>Zurück</a>";
 
 
 ##### TESTBEREICH ######################################################################################################
